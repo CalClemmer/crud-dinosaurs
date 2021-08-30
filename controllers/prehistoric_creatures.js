@@ -1,9 +1,11 @@
 var express = require('express');
 var router = express.Router();
+const fs = require('fs');
+const methodOverride = require('method-override');
 // const router = express();
 
 
-router.post('/prehistoric_creatures', function(req, res) {
+router.post('/', function(req, res) {
     // read dinosaurs file
     let creatures = fs.readFileSync('./prehistoric_creatures.json');
     creatures = JSON.parse(creatures);
@@ -27,7 +29,7 @@ router.post('/prehistoric_creatures', function(req, res) {
   });
   */
   
-  router.get('/prehistoric_creatures', function(req, res) {
+  router.get('/', function(req, res) {
     let creatures = fs.readFileSync('./prehistoric_creatures.json');
     let creatureData = JSON.parse(creatures);
   
@@ -52,14 +54,14 @@ router.post('/prehistoric_creatures', function(req, res) {
     });
   */
   
-  router.get('/prehistoric_creatures/new', function(req, res){
+  router.get('/new', function(req, res){
       res.render('prehistoric_creatures/new');
   });
   
     //express show route for dinosaurs (lists one dinosaur)
   
   
-  router.get('/prehistoric_creatures/:idx', function(req, res) {
+  router.get('/:idx', function(req, res) {
       // get dinosaurs
       let creatures = fs.readFileSync('./prehistoric_creatures.json');
       let creatureData = JSON.parse(creatures);
@@ -71,13 +73,13 @@ router.post('/prehistoric_creatures', function(req, res) {
       res.render('prehistoric_creatures/show', {myCreature: creatureData[creaturesIndex]});
     });
   
-  router.get('/prehistoric_creatures/edit/:idx', function(req, res){
+  router.get('/edit/:idx', function(req, res){
       const creatures = fs.readFileSync('./prehistoric_creatures.json');
       const creatureData = JSON.parse(creatures);
       res.render('prehistoric_creatures/edit', {creature: creatureData[req.params.idx], creatureId: req.params.idx});
     });
   
-  router.put('/prehistoric_creatures/:idx', function(req, res){
+  router.put('/:idx', function(req, res){
       const creatures = fs.readFileSync('./prehistoric_creatures.json');
       const creatureData = JSON.parse(creatures);
     

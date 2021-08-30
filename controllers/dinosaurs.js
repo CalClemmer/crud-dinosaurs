@@ -1,7 +1,7 @@
 var express = require('express');
 var router = express.Router();
 const fs = require('fs');
-// const methodOverride = require('method-override');
+const methodOverride = require('method-override');
 console.log('We get this far')
 
 router.get('/', function(req, res) {
