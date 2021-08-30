@@ -7,14 +7,14 @@ const methodOverride = require('method-override');
 
 router.post('/', function(req, res) {
     // read dinosaurs file
-    let creatures = fs.readFileSync('./prehistoric_creatures.json');
+    let creatures = fs.readFileSync('./models/prehistoric_creatures.json');
     creatures = JSON.parse(creatures);
   
     // add item to dinosaurs array
     creatures.push(req.body);
   
     // save dinosaurs to the data.json file
-    fs.writeFileSync('./prehistoric_creatures.json', JSON.stringify(creatures));
+    fs.writeFileSync('./models/prehistoric_creatures.json', JSON.stringify(creatures));
   
     //redirect to the GET /dinosaurs route (index)
     res.redirect('/prehistoric_creatures');
@@ -30,7 +30,7 @@ router.post('/', function(req, res) {
   */
   
   router.get('/', function(req, res) {
-    let creatures = fs.readFileSync('./prehistoric_creatures.json');
+    let creatures = fs.readFileSync('./models/prehistoric_creatures.json');
     let creatureData = JSON.parse(creatures);
   
     let nameFilter = req.query.nameFilter;
@@ -63,7 +63,7 @@ router.post('/', function(req, res) {
   
   router.get('/:idx', function(req, res) {
       // get dinosaurs
-      let creatures = fs.readFileSync('./prehistoric_creatures.json');
+      let creatures = fs.readFileSync('./models/prehistoric_creatures.json');
       let creatureData = JSON.parse(creatures);
     
       //get array index from url parameter
@@ -74,40 +74,39 @@ router.post('/', function(req, res) {
     });
   
   router.get('/edit/:idx', function(req, res){
-      const creatures = fs.readFileSync('./prehistoric_creatures.json');
+      const creatures = fs.readFileSync('./models/prehistoric_creatures.json');
       const creatureData = JSON.parse(creatures);
       res.render('prehistoric_creatures/edit', {creature: creatureData[req.params.idx], creatureId: req.params.idx});
     });
   
   router.put('/:idx', function(req, res){
-      const creatures = fs.readFileSync('./prehistoric_creatures.json');
+      const creatures = fs.readFileSync('./models/prehistoric_creatures.json');
       const creatureData = JSON.parse(creatures);
     
       //re-assign the name and type fields of the dinosaur to be editted
-      creatureData[req.params.idx].name = req.body.name;
+      creatureData[req.params.idx].img_url = req.body.img_url;
       creatureData[req.params.idx].type = req.body.type;
     
        // save the editted dinosaurs to the data.json file
-      fs.writeFileSync('./prehistoric_creatures.json', JSON.stringify(creatureData));
+      fs.writeFileSync('./models/prehistoric_creatures.json', JSON.stringify(creatureData));
       res.redirect('/prehistoric_creatures');
     });
 
-//We shouldn't need delete here 
-/*
-  router.delete('/dinosaurs/:idx', function(req, res){
-      const creatures = fs.readFileSync('./dinosaurs.json');
-      const creatureData = JSON.parse(dinosaurs);
+
+  router.delete('/:idx', function(req, res){
+      const creatures = fs.readFileSync('./models/prehistoric_creatures.json');
+      const creatureData = JSON.parse(creatures);
     
       // remove the deleted dinosaur from the dinosaurs array
-      dinoData.splice(req.params.idx, 1)
+      creatureData.splice(req.params.idx, 1)
     
       // save the new dinosaurs to the data.json file
-      fs.writeFileSync('./dinosaurs.json', JSON.stringify(dinoData));
+      fs.writeFileSync('./models/prehistoric_creatures.json', JSON.stringify(creatureData));
     
       //redirect to the GET /dinosaurs route (index)
-      res.redirect('/dinosaurs');
+      res.redirect('/prehistoric_creatures');
     });
-*/
+
   
 
 

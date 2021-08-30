@@ -4,9 +4,11 @@ const fs = require('fs');
 const methodOverride = require('method-override');
 console.log('We get this far')
 
+// router.use(express.urlencoded({extended: false}));
+
 router.get('/', function(req, res) {
     console.log('You finally made it in')
-    let dinosaurs = fs.readFileSync('./dinosaurs.json');
+    let dinosaurs = fs.readFileSync('./models/dinosaurs.json');
     let dinoData = JSON.parse(dinosaurs);
   
     let nameFilter = req.query.nameFilter;
@@ -24,14 +26,14 @@ router.get('/', function(req, res) {
 
 router.post('/', function(req, res) {
     // read dinosaurs file
-    let dinosaurs = fs.readFileSync('./dinosaurs.json');
+    let dinosaurs = fs.readFileSync('./models/dinosaurs.json');
     dinosaurs = JSON.parse(dinosaurs);
   
     // add item to dinosaurs array
     dinosaurs.push(req.body);
   
     // save dinosaurs to the data.json file
-    fs.writeFileSync('./dinosaurs.json', JSON.stringify(dinosaurs));
+    fs.writeFileSync('./models/dinosaurs.json', JSON.stringify(dinosaurs));
   
     //redirect to the GET /dinosaurs route (index)
     res.redirect('/dinosaurs');
@@ -66,7 +68,7 @@ router.post('/', function(req, res) {
   
   router.get('/:idx', function(req, res) {
       // get dinosaurs
-      let dinosaurs = fs.readFileSync('./dinosaurs.json');
+      let dinosaurs = fs.readFileSync('./models/dinosaurs.json');
       let dinoData = JSON.parse(dinosaurs);
     
       //get array index from url parameter
@@ -77,13 +79,13 @@ router.post('/', function(req, res) {
     });
   
   router.get('/edit/:idx', function(req, res){
-      const dinosaurs = fs.readFileSync('./dinosaurs.json');
+      const dinosaurs = fs.readFileSync('./models/dinosaurs.json');
       const dinoData = JSON.parse(dinosaurs);
       res.render('dinosaurs/edit', {dino: dinoData[req.params.idx], dinoId: req.params.idx});
     });
   
   router.put('/:idx', function(req, res){
-      const dinosaurs = fs.readFileSync('./dinosaurs.json');
+      const dinosaurs = fs.readFileSync('./models/dinosaurs.json');
       const dinoData = JSON.parse(dinosaurs);
     
       //re-assign the name and type fields of the dinosaur to be editted
@@ -91,19 +93,19 @@ router.post('/', function(req, res) {
       dinoData[req.params.idx].type = req.body.type;
     
        // save the editted dinosaurs to the data.json file
-      fs.writeFileSync('./dinosaurs.json', JSON.stringify(dinoData));
+      fs.writeFileSync('./models/dinosaurs.json', JSON.stringify(dinoData));
       res.redirect('/dinosaurs');
     });
   
   router.delete('/:idx', function(req, res){
-      const dinosaurs = fs.readFileSync('./dinosaurs.json');
+      const dinosaurs = fs.readFileSync('./models/dinosaurs.json');
       const dinoData = JSON.parse(dinosaurs);
     
       // remove the deleted dinosaur from the dinosaurs array
       dinoData.splice(req.params.idx, 1)
     
       // save the new dinosaurs to the data.json file
-      fs.writeFileSync('./dinosaurs.json', JSON.stringify(dinoData));
+      fs.writeFileSync('./models/dinosaurs.json', JSON.stringify(dinoData));
     
       //redirect to the GET /dinosaurs route (index)
       res.redirect('/dinosaurs');
