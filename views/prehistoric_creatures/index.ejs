@@ -1,6 +1,6 @@
 <ul>
     <% myCreatures.forEach(function(creature) { %>
-    <li><%= creature.name %> is a <%= creature.type %></li>
+    <li><img src='<%= creature.img_url %>' width='120'> is a <%= creature.type %></li>
     <% }); %>
   </ul>
   <form method="GET" action="/prehistoric_creatures">
@@ -12,7 +12,7 @@
   
   <ul>
     <% myCreatures.forEach(function(creature, index) { %>
-    <li><%= creature.name %> is a <%= creature.type %>
+    <li><img src='<%= creature.img_url %>' width='120'> is a <%= creature.type %>
         <a href="/prehistoric_creatures/edit/<%= index %>">Edit</a>
         <form method="POST" action="/prehistoric_creatures/<%= index %>/?_method=DELETE">
             <input type="submit" value="Delete">
